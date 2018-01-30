@@ -687,4 +687,16 @@
     <string name="ticker_disabled">Disabled</string>
     <string name="ticker_enabled">Notification ticker</string>
     <string name="ticker_media_enabled">Notification and music ticker</string>
+
+    <!-- Carrier Label -->
+    <string name="carrierlabel_title">Carrier Label</string>
+    <string name="carrier_options">Select display locations</string>
+    <string name="custom_carrier_label_title">Custom carrier label</string>
+    <string name="custom_carrier_label_explain">Enter a custom label. Leave blank to use your network name</string>
+    <string name="custom_carrier_label_notset">Custom label currently not set</string>
+    <string name="show_carrier_title">Carrier label</string>
+    <string name="show_carrier_disabled">Disabled</string>
+    <string name="show_carrier_keyguard">Lockscreen</string>
+    <string name="show_carrier_statusbar">Status bar</string>
+    <string name="show_carrier_enabled">Both</string>
 </resources>
