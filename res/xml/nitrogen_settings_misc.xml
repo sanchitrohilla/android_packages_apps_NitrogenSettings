@@ -49,4 +49,10 @@
             android:title="@string/show_cpu_info"
             android:summary="@string/show_cpu_info_summary" 
             android:defaultValue="false" />
-</PreferenceScreen>
+
+       <com.nitrogen.settings.preferences.GlobalSettingSwitchPreference 
+       android:key="system_default_animation"
+            android:title="@string/system_default_animation_title"
+            android:summary="@string/system_default_animation_summary"
+            android:defaultValue="false" />
+  </PreferenceScreen>

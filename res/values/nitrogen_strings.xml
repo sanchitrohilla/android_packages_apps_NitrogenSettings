@@ -624,4 +624,17 @@
 
     <!-- QuickSettings Panel Transparency -->
     <string name="qs_panel_alpha_title">Opacity</string>
+
+<string name="system_default_animation_title">Android P animation style</string>
+<string name="system_default_animation_summary">Enable Android P \"Default\" animations</string>
+  <string name="system_animations">System Animations</string>
+<string name="animations_title">Animations</string>
+
+    <string name="accent_picker_dialog_title">Sweetness accent color</string>
+    <string name="theme_accent_picker_title">Sweetness accent color</string>
+    <string name="theme_accent_picker_summary">Select system theme sweetness color</string>
+    <string name="theme_accent_picker_default">Default</string>
+    <string name="disable_fonts_installed_title">Font picker is unavailable to avoid conflicts with Substratum. Uninstall it if you wish to use the font picker.</string>
+
+
 </resources>
