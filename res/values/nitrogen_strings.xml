@@ -14,7 +14,11 @@
     <!-- App Title -->
     <string name="nitrogen_settings_title">Nitrogen Settings</string>
 
-    <!-- Categories -->
+   <!-- 4g icon -->
+    <string name="show_fourg_icon_title">4G icon</string>
+    <string name="show_fourg_icon_summary">Display 4G icon in signal icon instead LTE</string>  
+
+  <!-- Categories -->
     <string name="button_title">Buttons</string>
     <string name="gestures_title">Gestures</string>
     <string name="lockscreen_title">Lock screen</string>
