@@ -22,6 +22,11 @@
     <string name="show_fourg_icon_title">4G icon</string>
     <string name="show_fourg_icon_summary">Display 4G icon in signal icon instead LTE</string>  
 
+  <!-- Roaming indicator icon -->
+  <string name="icons_category">Icons</string>
+  <string name="roaming_indicator_icon_title">Roaming indicator</string>
+  <string name="roaming_indicator_icon_summary">Display roaming indicator in signal icon when in roaming mode</string>
+
   <!-- Categories -->
     <string name="button_title">Buttons</string>
     <string name="gestures_title">Gestures</string>
