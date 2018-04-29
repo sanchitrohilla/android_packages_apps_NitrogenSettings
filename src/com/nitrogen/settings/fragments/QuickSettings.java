@@ -2,6 +2,8 @@ package com.nitrogen.settings.fragments;
 
 import com.android.internal.logging.nano.MetricsProto;
 
+import android.app.Activity;
+import android.net.Uri;
 import android.os.Bundle;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -42,6 +44,9 @@ public class QuickSettings extends SettingsPreferenceFragment implements
     private static final String CUSTOM_HEADER_PROVIDER = "custom_header_provider";
     private static final String STATUS_BAR_CUSTOM_HEADER = "status_bar_custom_header";
     private static final String CUSTOM_HEADER_ENABLED = "status_bar_custom_header";
+    private static final String FILE_HEADER_SELECT = "file_header_select";
+    private static final int REQUEST_PICK_IMAGE = 0;
+
 
     private ListPreference mSmartPulldown;
     private CustomSeekBarPreference mQsPanelAlpha;
@@ -52,6 +57,9 @@ public class QuickSettings extends SettingsPreferenceFragment implements
     private ListPreference mHeaderProvider;
     private String mDaylightHeaderProvider;
     private SwitchPreference mHeaderEnabled;
+    private Preference mFileHeader;
+    private String mFileHeaderProvider;
+
 
     @Override
     public void onCreate(Bundle icicle) {
@@ -63,12 +71,12 @@ public class QuickSettings extends SettingsPreferenceFragment implements
         ContentResolver resolver = getActivity().getContentResolver();
 
         mHeaderBrowse = findPreference(CUSTOM_HEADER_BROWSE);
-        mHeaderBrowse.setEnabled(isBrowseHeaderAvailable());
 
         mHeaderEnabled = (SwitchPreference) findPreference(CUSTOM_HEADER_ENABLED);
         mHeaderEnabled.setOnPreferenceChangeListener(this);
 
         mDaylightHeaderPack = (ListPreference) findPreference(DAYLIGHT_HEADER_PACK);
+        mFileHeaderProvider = getResources().getString(R.string.file_header_provider);
 
         List<String> entries = new ArrayList<String>();
         List<String> values = new ArrayList<String>();
@@ -106,6 +114,7 @@ public class QuickSettings extends SettingsPreferenceFragment implements
         if (providerName == null) {
             providerName = mDaylightHeaderProvider;
         }
+ mHeaderBrowse.setEnabled(isBrowseHeaderAvailable() && !providerName.equals(mFileHeaderProvider));
 
         mHeaderProvider = (ListPreference) findPreference(CUSTOM_HEADER_PROVIDER);
         int valueIndex = mHeaderProvider.findIndexOfValue(providerName);
@@ -113,7 +122,8 @@ public class QuickSettings extends SettingsPreferenceFragment implements
         mHeaderProvider.setSummary(mHeaderProvider.getEntry());
         mHeaderProvider.setOnPreferenceChangeListener(this);
         mDaylightHeaderPack.setEnabled(providerName.equals(mDaylightHeaderProvider));
-
+        mFileHeader = findPreference(FILE_HEADER_SELECT);
+        mFileHeader.setEnabled(providerName.equals(mFileHeaderProvider));
         }
 
     private void updateHeaderProviderSummary(boolean headerEnabled) {
@@ -133,10 +143,9 @@ public class QuickSettings extends SettingsPreferenceFragment implements
       }
 }
 
-    @Override
-        }    public boolean onPreferenceChange(Preference preference, Object 
-        }    newValue) {
-    }        ContentResolver resolver = getActivity().getContentResolver();
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+            ContentResolver resolver = getActivity().getContentResolver();
         if (preference == mSmartPulldown) {
             int smartPulldown = Integer.valueOf((String) newValue);
             Settings.System.putInt(resolver, Settings.System.QS_SMART_PULLDOWN, smartPulldown);
@@ -168,8 +177,10 @@ public class QuickSettings extends SettingsPreferenceFragment implements
             int valueIndex = mHeaderProvider.findIndexOfValue(value);
             mHeaderProvider.setSummary(mHeaderProvider.getEntries()[valueIndex]);
             mDaylightHeaderPack.setEnabled(value.equals(mDaylightHeaderProvider));
+            mHeaderBrowse.setEnabled(!value.equals(mFileHeaderProvider));
             mHeaderBrowse.setTitle(valueIndex == 0 ? R.string.custom_header_browse_title : R.string.custom_header_pick_title);
             mHeaderBrowse.setSummary(valueIndex == 0 ? R.string.custom_header_browse_summary_new : R.string.custom_header_pick_summary);
+            mFileHeader.setEnabled(value.equals(mFileHeaderProvider));
             return true;
         } else if (preference == mHeaderEnabled) {
             Boolean headerEnabled = (Boolean) newValue;
@@ -179,6 +190,17 @@ public class QuickSettings extends SettingsPreferenceFragment implements
 
         return false;
     }
+
+    @Override
+    public boolean onPreferenceTreeClick(Preference preference) {
+        if (preference == mFileHeader) {
+            Intent intent = new Intent(Intent.ACTION_PICK);
+            intent.setType("image/*");
+            startActivityForResult(intent, REQUEST_PICK_IMAGE);
+            return true;
+       }
+       return super.onPreferenceTreeClick(preference);
+   }
 
     private boolean isBrowseHeaderAvailable() {
         PackageManager pm = getActivity().getPackageManager();
@@ -243,4 +265,14 @@ public class QuickSettings extends SettingsPreferenceFragment implements
         return MetricsProto.MetricsEvent.NITROGEN_SETTINGS;
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent result) {
+        if (requestCode == REQUEST_PICK_IMAGE) {
+            if (resultCode != Activity.RESULT_OK) {
+                return;
+        }
+            final Uri imageUri = result.getData();
+            Settings.System.putString(getContentResolver(), Settings.System.STATUS_BAR_FILE_HEADER_IMAGE, imageUri.toString());
+      }
+   }
 }
