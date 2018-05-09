@@ -42,6 +42,12 @@
         android:summary="@string/lockscreen_battery_info_summary"
         android:defaultValue="true" />
 
+    <com.nitrogen.settings.preferences.SystemSettingSwitchPreference
+        android:key="lockscreen_visualizer"
+        android:title="@string/lockscreen_visualizer_title"
+        android:summary="@string/lockscreen_visualizer_summary"
+        android:defaultValue="false" />
+
     <SwitchPreference
         android:key="fingerprint_success_vib"
         android:title="@string/fprint_sucess_vib_title"
